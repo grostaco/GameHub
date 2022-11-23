@@ -8,9 +8,9 @@ use lambda_http::{
 };
 use microservices::*;
 
-use crate::auth::create_jwt;
+use crate::util::auth::create_jwt;
 
-use super::macros::json_response;
+use crate::util::macros::json_response;
 
 #[derive(Serialize, Deserialize)]
 #[serde(crate = "lambda_http::aws_lambda_events::serde")]

@@ -16,7 +16,7 @@ macro_rules! json_response {
             .status($status)
             .header("content-type", "application/json")
             .body(
-                serde_json::to_vec_pretty(&crate::macros::AuthError {
+                serde_json::to_vec_pretty(&crate::util::macros::AuthError {
                     message: $message.into(),
                     reason: $reason.into(),
                     code: $status,

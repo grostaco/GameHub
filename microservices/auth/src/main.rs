@@ -5,16 +5,12 @@ use lambda_http::{
 };
 use microservices::*;
 
-mod auth;
-mod error;
-mod login;
-mod macros;
-mod register;
+pub mod error;
+pub mod routes;
+pub mod util;
 
-use login::login;
-use register::register;
-
-use macros::json_response;
+pub use routes::{login, register};
+use util::macros::json_response;
 
 async fn function_handler(event: Request) -> Result<Response<Body>, Error> {
     let query_map = event.path_parameters();

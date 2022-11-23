@@ -1,10 +1,10 @@
 use chrono::{Duration, Utc};
 
-use jsonwebtoken::{encode, Algorithm, EncodingKey, Header};
+use jsonwebtoken::{decode, encode, Algorithm, DecodingKey, EncodingKey, Header, Validation};
 use lambda_http::aws_lambda_events::serde::{Deserialize, Serialize};
 use microservices::*;
 
-use super::error::Error;
+use crate::error::Error;
 
 #[derive(Serialize, Deserialize, Debug)]
 #[serde(crate = "lambda_http::aws_lambda_events::serde")]
@@ -16,14 +16,14 @@ pub struct Claims {
 #[derive(Serialize, Deserialize, Debug)]
 #[serde(crate = "lambda_http::aws_lambda_events::serde")]
 pub struct AuthResponse {
-    pub token: String,
-    pub refresh: String,
+    pub access_token: String,
+    pub refresh_token: String,
     pub expires_in: u64,
 }
 
 pub fn create_jwt(id: &str) -> Result<AuthResponse, Error> {
     lazy_static::lazy_static! {
-        static ref JWT_SECRET: String = std::env::var("JWT_SECRET").unwrap();
+        static ref JWT_SECRET: EncodingKey = EncodingKey::from_secret(std::env::var("JWT_SECRET").unwrap().as_bytes());
     };
 
     // For testing purposes, the tokens will expire very quickly
@@ -49,22 +49,24 @@ pub fn create_jwt(id: &str) -> Result<AuthResponse, Error> {
     };
 
     let header = Header::new(Algorithm::HS256);
-    let token = encode(
-        &header,
-        &claims,
-        &EncodingKey::from_secret(JWT_SECRET.as_bytes()),
-    )
-    .map_err(|_| Error::TokenCreateFailed)?;
-    let refresh = encode(
-        &header,
-        &refresh_claims,
-        &EncodingKey::from_secret(JWT_SECRET.as_bytes()),
-    )
-    .map_err(|_| Error::TokenCreateFailed)?;
+    let token = encode(&header, &claims, &JWT_SECRET).map_err(|_| Error::TokenCreateFailed)?;
+    let refresh =
+        encode(&header, &refresh_claims, &JWT_SECRET).map_err(|_| Error::TokenCreateFailed)?;
 
     Ok(AuthResponse {
-        token,
-        refresh,
+        access_token: token,
+        refresh_token: refresh,
         expires_in: 60,
     })
+}
+
+pub fn verify(token: &str) -> Result<bool, Error> {
+    lazy_static::lazy_static! {
+        static ref JWT_SECRET: DecodingKey = DecodingKey::from_secret(std::env::var("JWT_SECRET").unwrap().as_bytes());
+    };
+
+    let validation = Validation::new(Algorithm::HS256);
+    decode::<Claims>(token, &JWT_SECRET, &validation)
+        .map_err(|_| Error::InvalidToken)
+        .map(|_| true)
 }

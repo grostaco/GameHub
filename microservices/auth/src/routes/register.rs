@@ -11,9 +11,7 @@ use lambda_http::{
 };
 use microservices::{aws_sdk_dynamodb, lambda_http};
 
-use crate::auth::create_jwt;
-
-use super::macros::{json_response, GAMEHUB_EPOCH};
+use crate::util::{auth::create_jwt, macros::json_response, macros::GAMEHUB_EPOCH};
 
 #[derive(Serialize, Deserialize)]
 #[serde(crate = "lambda_http::aws_lambda_events::serde")]
