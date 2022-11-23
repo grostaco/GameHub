@@ -7,3 +7,6 @@ edition = "2021"
 microservices = { path = "../" }
 bcrypt = "0.13"
 jsonwebtoken = "8.1.1"
+chrono = "0.4.23"
+lazy_static = "1.4.0"
+thiserror = "1.0.37"
