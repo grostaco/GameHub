@@ -1,6 +1,8 @@
 use chrono::{Duration, Utc};
 
-use jsonwebtoken::{decode, encode, Algorithm, DecodingKey, EncodingKey, Header, Validation};
+use jsonwebtoken::{
+    decode, encode, Algorithm, DecodingKey, EncodingKey, Header, TokenData, Validation,
+};
 use lambda_http::aws_lambda_events::serde::{Deserialize, Serialize};
 use microservices::*;
 
@@ -60,13 +62,11 @@ pub fn create_jwt(id: &str) -> Result<AuthResponse, Error> {
     })
 }
 
-pub fn verify(token: &str) -> Result<bool, Error> {
+pub fn verify(token: &str) -> Result<TokenData<Claims>, Error> {
     lazy_static::lazy_static! {
         static ref JWT_SECRET: DecodingKey = DecodingKey::from_secret(std::env::var("JWT_SECRET").unwrap().as_bytes());
     };
 
     let validation = Validation::new(Algorithm::HS256);
-    decode::<Claims>(token, &JWT_SECRET, &validation)
-        .map_err(|_| Error::InvalidToken)
-        .map(|_| true)
+    decode::<Claims>(token, &JWT_SECRET, &validation).map_err(|_| Error::InvalidToken)
 }

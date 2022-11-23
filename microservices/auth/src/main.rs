@@ -9,7 +9,7 @@ pub mod error;
 pub mod routes;
 pub mod util;
 
-pub use routes::{login, register};
+pub use routes::{login, refresh, register};
 use util::macros::json_response;
 
 async fn function_handler(event: Request) -> Result<Response<Body>, Error> {
@@ -25,6 +25,7 @@ async fn function_handler(event: Request) -> Result<Response<Body>, Error> {
     let resp = match proxy_path {
         "login" => login(&client, event.body()).await?,
         "register" => register(&client, event.body()).await?,
+        "refresh" => refresh(event.body()).await?,
         _ => json_response!(
             404,
             format!("Cannot proxy to path '{proxy_path}'"),

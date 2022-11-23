@@ -1,6 +1,7 @@
 mod login;
-pub mod refresh;
+mod refresh;
 mod register;
 
 pub use login::login;
+pub use refresh::refresh;
 pub use register::register;
