@@ -4,7 +4,6 @@ use jsonwebtoken::{
     decode, encode, Algorithm, DecodingKey, EncodingKey, Header, TokenData, Validation,
 };
 use lambda_http::aws_lambda_events::serde::{Deserialize, Serialize};
-use microservices::*;
 
 use crate::error::Error;
 

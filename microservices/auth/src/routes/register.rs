@@ -9,7 +9,6 @@ use lambda_http::{
     },
     Body, Error, Response,
 };
-use microservices::{aws_sdk_dynamodb, lambda_http};
 
 use crate::util::{auth::create_jwt, macros::json_response, macros::GAMEHUB_EPOCH};
 

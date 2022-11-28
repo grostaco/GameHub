@@ -5,7 +5,6 @@ use lambda_http::{
     },
     Body, Error, Response,
 };
-use microservices::*;
 
 use crate::util::auth::{self, create_jwt};
 
