@@ -4,12 +4,10 @@ use lambda_http::{
     aws_lambda_events::serde_json, run, service_fn, Body, Error, Request, RequestExt, Response,
 };
 
-pub mod error;
 pub mod routes;
-pub mod util;
 
 pub use routes::{login, refresh, register};
-use util::macros::json_response;
+use util::json_response;
 
 async fn function_handler(event: Request) -> Result<Response<Body>, Error> {
     let query_map = event.path_parameters();

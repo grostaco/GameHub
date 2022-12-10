@@ -6,10 +6,7 @@ use lambda_http::{
     },
     Body, Error, Response,
 };
-
-use crate::util::auth::create_jwt;
-
-use crate::util::macros::json_response;
+use util::{auth::create_jwt, json_response};
 
 #[derive(Serialize, Deserialize)]
 #[serde(crate = "lambda_http::aws_lambda_events::serde")]

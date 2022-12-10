@@ -10,7 +10,7 @@ use lambda_http::{
     Body, Error, Response,
 };
 
-use crate::util::{auth::create_jwt, macros::json_response, macros::GAMEHUB_EPOCH};
+use util::{auth::create_jwt, json_response, macros::GAMEHUB_EPOCH};
 
 #[derive(Serialize, Deserialize)]
 #[serde(crate = "lambda_http::aws_lambda_events::serde")]

@@ -12,8 +12,5 @@ tracing-subscriber = { version = "0.3", default-features = false, features = ["f
 aws-sdk-dynamodb = "0.21.0"
 aws-config = "0.51.0"
 
-bcrypt = "0.13"
-jsonwebtoken = "8.1.1"
-chrono = "0.4.23"
-lazy_static = "1.4.0"
-thiserror = "1.0.37"
+util = { path = "../util" }
+bcrypt = "0.13.0"
