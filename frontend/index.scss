@@ -1,0 +1,110 @@
+html,
+body {
+    position: relative;
+    min-height: 100%;
+    color: #9eaab7;
+    background-color: #0f1117;
+    margin: 0;
+    font-feature-settings: 'kern';
+    line-break: auto;
+    font-family: 'Wotfard', -apple-system, 'Segoe UI', 'Roboto', 'Ubuntu', 'Cantarell', 'Noto Sans', sans-serif, 'BlinkMacSystemFont', 'Helvetica Neue', 'Arial', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+.text-edit {
+    display: flex;
+    flex: 1;
+}
+
+.text-edit>textarea {
+    flex: 1;
+}
+
+a,
+a:visited {
+    color: inherit;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    color: white;
+    padding: 0.75rem;
+    margin: 2rem;
+}
+
+.divider {
+    width: 100%;
+    height: 1px;
+    background-color: white;
+}
+
+.btn {
+    border-radius: 8px;
+    margin-right: 4px;
+    padding: 8px 8px 8px 8px;
+    clear: both;
+    color: #9eaab7;
+    background-color: #181b2b;
+    border-style: solid;
+    border-color: #181b2b;
+    cursor: pointer;
+}
+
+.btn:hover {
+    border-color: #1C182C;
+    background-color: #1C182C;
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+}
+
+.bold {
+    font-weight: 900;
+}
+
+.font-md {
+    font-size: 1.5rem;
+}
+
+.font-lg {
+    font-size: 2.5rem;
+}
+
+.dflex {
+    display: flex;
+}
+
+.dflex-justify-between {
+    justify-content: space-between;
+}
+
+.dflex-justify-center {
+    align-items: center;
+}
+
+.dflex-gap-sm {
+    gap: 1rem;
+}
+
+.dflex-gap-md {
+    gap: 2.5rem;
+}
+
+.dflex-row {
+    flex-direction: row;
+}
+
+.dflex-col {
+    flex-direction: column;
+}
+
+.dflex-col-reverse {
+    flex-direction: column-reverse;
+}
+
+.dflex-grow-1 {
+    flex-grow: 1;
+}
