@@ -30,13 +30,16 @@ p {
     color: #fff;
     font-family: sans-serif;
     gap: 0.5rem;
+    
 }
 
 .nav-bar {
-    display: grid;
+    display: flex;
     grid-template-columns: repeat(6, 1fr);
     padding: 10px;
     justify-items: center;
+    justify-content: space-between;
+    padding: 10px 100px;
     height: 50px;
 }
 
@@ -54,45 +57,25 @@ p {
     
 }
 
-.content {
-    max-width: 1400px;
-    padding-top: 12px;
-    margin: 0 auto;
+.flex-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    padding-left: 235px;
 }
 
-.game-catalog {
-    display: grid;
-    grid-auto-flow: column;
-    align-self: center;
-}
-
-.game-home-page-container {
-    font-size: 24px;
-    color: #fff;
-    font-family: sans-serif;
-}
-
-.container-header {
-    margin: 3px 0 6px;
-}
-
-.game-content-element {
-    text-decoration: inherit;
-    color: inherit;
-    font-weight: 700;
+.flex-container > div {
+    margin: 10px;
     text-align: center;
-    padding: 10px;
+    line-height: 75px;
+    font-size: 30px;
 }
 
-.game-card {
-    color:inherit;
-    text-decoration: none;
-}
-
-.game-title {
+.flex-container #game-title {
     font-weight: 500;
     overflow: hidden;
     max-height: 44px;
     text-align: left;
     margin-top: 10px;
+    margin-left:20px;
 }
