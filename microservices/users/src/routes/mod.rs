@@ -1,2 +1,2 @@
-pub mod friends;
-pub mod user;
+pub mod me;
+pub mod play;

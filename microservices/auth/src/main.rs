@@ -1,8 +1,6 @@
 use aws_sdk_dynamodb::Client;
 
-use lambda_http::{
-    aws_lambda_events::serde_json, run, service_fn, Body, Error, Request, RequestExt, Response,
-};
+use lambda_http::{run, service_fn, Body, Error, Request, RequestExt, Response};
 
 pub mod routes;
 
