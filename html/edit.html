@@ -1,0 +1,71 @@
+<html>
+    <head>
+        <title> Edit Profile</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="css/styles.css">
+        <div class="nav">
+          <div class="nav-bar">
+            <img src="logo.png" height=47.64px; />
+            <a class="nav-title-element" href="/html/index.html">Home</a>
+            <a class="nav-title-element" href="#">Discover</a>
+            <a class="nav-title-element" href="/html/friendList.html">Friends</a>
+            <a class="nav-title-element" href="/html/profile.html">Profile</a>
+            <a class="nav-title-element" href="login.html">Login</a>
+          </div>
+        </div>
+    </head>
+    <body>
+        <h1 style="display: flex; justify-content: center;">Edit Profile</h1>
+        <div class="form-container">
+            <label>New Email : </label>
+            <input type="text" placeholder="Enter Email" name="email" required>
+            <label>New Username : </label>
+            <input type="text" placeholder="Enter Username" name="username" required>
+            <label>New Password : </label>
+            <input type="password" placeholder="Enter Password" name="password" required>
+            <button id="submit-btn">Submit</button>
+        </div>
+    </body>
+</html>
+
+<style>
+    .form-container {
+        display:flex;
+        flex-direction: column;
+        padding: 40px;
+        background-color: #242527;
+        border: 2px solid #f8981f;
+        width: 50%;
+        margin: 0 auto;
+        margin-top:50px;
+    }
+    .form-container label {
+        font-size: 24px;
+        color: white;
+    }
+    .form-container input {
+        width: 100%;
+        margin: 8px 0;
+        padding: 12px 20px;
+        display: inline-block;
+        border: 2px solid #f8981f;
+        box-sizing: border-box;
+    }
+
+    .form-container button {
+        margin-top: 20px;
+        border: none;
+        border-radius: 4px;
+        padding: 0.5em 1em;
+        width: 100px;
+        background-color: #f8981f;
+        color: white;
+        cursor: pointer;
+        justify-content: center;
+    }
+
+    #submit-btn:disabled {
+        background-color: hsla(0, 0%, 100%, .7);
+        cursor: auto;
+    }
+</style>
