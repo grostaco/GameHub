@@ -23,6 +23,8 @@
             <input type="text" placeholder="Enter Username" name="username" required>
             <label>New Password : </label>
             <input type="password" placeholder="Enter Password" name="password" required>
+            <label>Bio : </label>
+            <textarea name="bio" rows="4" cols="50" style="font-size: 20px;padding: 10px 10px 10px 10px"></textarea>
             <button id="submit-btn">Submit</button>
         </div>
     </body>
@@ -62,6 +64,10 @@
         color: white;
         cursor: pointer;
         justify-content: center;
+    }
+    .form-container textarea {
+        margin-top: 10px;
+        border: 2px solid #f8981f;  
     }
 
     #submit-btn:disabled {
