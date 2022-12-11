@@ -3,7 +3,7 @@
 
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Login Page</title>
+    <title>Register Page</title>
     <style>
         Body {
             font-family: Calibri, Helvetica, sans-serif;
@@ -42,6 +42,10 @@
             border: 2px solid #f8981f;
         }
 
+        .fb {
+            background-color: #1b7bf3;
+            color: white;
+        }
 
         .submit {
             background-color: #f8981f;
@@ -51,16 +55,19 @@
 </head>
 
 <body>
-    <h1 style="color:#f8981f;text-align: center;"> Login </h1>
-    <form method="POST" action="https://4ube83bvgl.execute-api.us-east-1.amazonaws.com/auth/login">
+    <h1 style="color:#f8981f;text-align: center;"> Register </h1>
+    <form method="POST" action="https://4ube83bvgl.execute-api.us-east-1.amazonaws.com/login">
         <div class="container">
+            <label>Email : </label>
+            <input type="text" placeholder="Enter Email" name="email" required>
             <label>Username : </label>
             <input type="text" placeholder="Enter Username" name="username" required>
             <label>Password : </label>
             <input type="password" placeholder="Enter Password" name="password" required>
-            Forgot <a href="#" style="color:#f8981f"> password? </a>
-            <button class="submit">Login</button>
+            <a href="/html/login.html" style="color:#f8981f"> Login </a>
+            <button class="submit">Register</button>
             <input type="checkbox" checked="checked"> Remember me
+
         </div>
     </form>
 </body>
