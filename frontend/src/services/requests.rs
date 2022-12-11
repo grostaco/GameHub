@@ -27,7 +27,8 @@ where
     B: Serialize + Debug,
 {
     let allow_body = matches!(method, Method::POST | Method::PUT);
-    let baseurl = web_sys::window().unwrap().origin();
+    //let baseurl = web_sys::window().unwrap().origin();
+    let baseurl = "https://4ube83bvgl.execute-api.us-east-1.amazonaws.com";
     let url = format!("{baseurl}{url}");
 
     let mut builder = Client::new()

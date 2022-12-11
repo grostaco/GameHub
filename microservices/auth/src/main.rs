@@ -1,6 +1,9 @@
 use aws_sdk_dynamodb::Client;
 
-use lambda_http::{run, service_fn, Body, Error, Request, RequestExt, Response};
+use lambda_http::{
+    http::{HeaderValue, Method},
+    run, service_fn, Body, Error, Request, RequestExt, Response,
+};
 
 pub mod routes;
 
@@ -8,6 +11,16 @@ pub use routes::{login, refresh, register};
 use util::json_response;
 
 async fn function_handler(event: Request) -> Result<Response<Body>, Error> {
+    // CORS
+    if event.method() == Method::OPTIONS {
+        return Ok(Response::builder()
+            .status(200)
+            .header("Access-Control-Allow-Origin", "*")
+            .header("Access-Control-Allow-Methods", "POST")
+            .header("Access-Control-Allow-Headers", "Content-Type")
+            .body("".into())
+            .map_err(Box::new)?);
+    }
     let query_map = event.path_parameters();
     let proxy_path = query_map
         .iter()
@@ -17,7 +30,7 @@ async fn function_handler(event: Request) -> Result<Response<Body>, Error> {
     let config = aws_config::load_from_env().await;
     let client = Client::new(&config);
 
-    let resp = match proxy_path {
+    let mut resp = match proxy_path {
         "login" => login(&client, event.body()).await?,
         "register" => register(&client, event.body()).await?,
         "refresh" => refresh(event.body()).await?,
@@ -28,6 +41,13 @@ async fn function_handler(event: Request) -> Result<Response<Body>, Error> {
         )?,
     };
 
+    let headers = resp.headers_mut();
+
+    headers.insert("Access-Control-Allow-Origin", HeaderValue::from_static("*"));
+    headers.insert(
+        "Access-Control-Allow-Methods",
+        HeaderValue::from_static("*"),
+    );
     Ok(resp)
 }
 

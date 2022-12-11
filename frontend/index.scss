@@ -2,34 +2,39 @@ html,
 body {
     position: relative;
     min-height: 100%;
-    color: #9eaab7;
-    background-color: #0f1117;
+    color: white;
+    background-color: #232527;
     margin: 0;
     font-feature-settings: 'kern';
     line-break: auto;
     font-family: 'Wotfard', -apple-system, 'Segoe UI', 'Roboto', 'Ubuntu', 'Cantarell', 'Noto Sans', sans-serif, 'BlinkMacSystemFont', 'Helvetica Neue', 'Arial', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 }
 
-.text-edit {
-    display: flex;
-    flex: 1;
-}
-
-.text-edit>textarea {
-    flex: 1;
-}
-
 a,
 a:visited {
+    text-decoration: none;
     color: inherit;
+}
+
+.form-container {
+    padding: 40px;
+    background-color: #242527;
+    border: 2px solid #f8981f;
+    width: 50%;
+    margin: 0 auto;
+}
+
+.content {
+    margin: 0 auto;
+    width: 90%;
 }
 
 .navbar {
     display: flex;
-    justify-content: space-between;
     color: white;
-    padding: 0.75rem;
-    margin: 2rem;
+    background-color: #232527;
+    padding: 0 1em;
+    justify-content: space-between;
 }
 
 .divider {
@@ -65,6 +70,10 @@ a:visited {
     font-weight: 900;
 }
 
+.font-sm {
+    font-size: 1.15rem;
+}
+
 .font-md {
     font-size: 1.5rem;
 }
@@ -83,6 +92,10 @@ a:visited {
 
 .dflex-justify-center {
     align-items: center;
+}
+
+.dflex-gap-tn {
+    gap: 0.5rem;
 }
 
 .dflex-gap-sm {
@@ -107,4 +120,89 @@ a:visited {
 
 .dflex-grow-1 {
     flex-grow: 1;
+}
+
+.underline-expand {
+    cursor: pointer;
+    display: block;
+    position: relative;
+    overflow: hidden;
+    padding: 1em 2em;
+}
+
+.underline-expand::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 0.1em;
+    background-color: white;
+    opacity: 0;
+    transition: opacity 300ms, transform 300ms;
+}
+
+.underline-expand:after {
+    opacity: 1;
+    transform: translate3d(-110%, 0, 0);
+}
+
+.underline-expand:hover::after,
+.underline-expand:focus::after {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+}
+
+#signup-btn {
+    border: #808080 solid;
+    border-radius: 4px;
+    background-color: #808080;
+    border-width: 2px;
+    padding: 0.25rem;
+    cursor: pointer;
+}
+
+.game-thumb {
+    height: 200px;
+    border-radius: 4px;
+}
+
+.game-title {
+    font-weight: 500;
+    overflow: hidden;
+    padding: 0.5rem 0;
+}
+
+.play-count {
+    background-position: 0 -48px;
+    background-image: url(https://images.rbxcdn.com/87b4f6103befbe2c1e9c13eb9d7064db-common_sm_dark_12032018.svg);
+    width: 16px;
+    height: 16px;
+}
+
+.play-count-text {
+    color: hsla(0, 0%, 100%, .7)
+}
+
+.text-inp1 {
+    width: 100%;
+    margin: 8px 0;
+    padding: 12px 20px;
+    display: inline-block;
+    border: 2px solid #f8981f;
+    box-sizing: border-box;
+}
+
+#submit-btn {
+    border: none;
+    border-radius: 4px;
+    padding: 0.5em 1em;
+    background-color: #f8981f;
+    color: white;
+    cursor: pointer;
+}
+
+#submit-btn:disabled {
+    background-color: hsla(0, 0%, 100%, .7);
+    cursor: auto;
 }

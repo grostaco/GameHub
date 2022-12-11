@@ -6,13 +6,16 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+gloo = "0.8.0"
+gloo-timers = "0.2.5"
 log = "0.4.17"
 reqwest = { version = "0.11.13", features = ["json"] }
 serde = "1.0.149"
 serde_json = "1.0.89"
 thiserror = "1.0.37"
+wasm-bindgen = "0.2.83"
 wasm-logger = "0.2.0"
-web-sys = "0.3.60"
-yew = { git = "https://github.com/yewstack/yew/", features = ["csr"] }
+web-sys = { version = "0.3.60", features = ["Document", "Element", "HtmlTextAreaElement"] }
+yew = { version = "0.20.0", features = ["csr"] }
 yew-hooks = { git = "https://github.com/jetli/yew-hooks" }
-yew-router = { git = "https://github.com/yewstack/yew.git" }
+yew-router = "0.17.0"
