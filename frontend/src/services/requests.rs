@@ -1,39 +1,66 @@
 use std::fmt::Debug;
 
-use reqwest::{Client, Method, StatusCode};
+use reqwest::{
+    header::{HeaderMap, HeaderValue},
+    Client, Method, StatusCode,
+};
 use serde::{de::DeserializeOwned, Serialize};
 
 use super::error::{Error, ErrorInfo};
 
 macro_rules! request {
     (get -> $url:expr) => {
-        crate::services::requests::request_impl(reqwest::Method::GET, $url, ())
+        crate::services::requests::request_impl(
+            reqwest::Method::GET,
+            $url,
+            (),
+            reqwest::header::HeaderMap::default(),
+        )
+    };
+
+    (get -> $url:expr => $headermap:expr) => {
+        crate::services::requests::request_impl(reqwest::Method::GET, $url, (), $headermap)
     };
 
     (delete -> $url:expr) => {
-        crate::services::requests::request_impl(reqwest::Method::DELETE, $url, ())
+        crate::services::requests::request_impl(
+            reqwest::Method::DELETE,
+            $url,
+            (),
+            reqwest::header::HeaderMap::default(),
+        )
     };
 
     (post -> $url:expr ; $body:expr) => {
-        crate::services::requests::request_impl(reqwest::Method::POST, $url, $body)
+        crate::services::requests::request_impl(
+            reqwest::Method::POST,
+            $url,
+            $body,
+            reqwest::header::HeaderMap::default(),
+        )
     };
 }
 
 pub(crate) use request;
 
-pub async fn request_impl<B, T>(method: Method, url: &str, body: B) -> Result<T, Error>
+pub async fn request_impl<B, T>(
+    method: Method,
+    url: &str,
+    body: B,
+    headers: HeaderMap<HeaderValue>,
+) -> Result<T, Error>
 where
     T: DeserializeOwned + 'static + Debug,
     B: Serialize + Debug,
 {
     let allow_body = matches!(method, Method::POST | Method::PUT);
-    //let baseurl = web_sys::window().unwrap().origin();
     let baseurl = "https://4ube83bvgl.execute-api.us-east-1.amazonaws.com";
     let url = format!("{baseurl}{url}");
 
     let mut builder = Client::new()
         .request(method, url)
-        .header("Content-Type", "application/json");
+        .header("Content-Type", "application/json")
+        .headers(headers);
 
     if allow_body {
         builder = builder.json(&body);

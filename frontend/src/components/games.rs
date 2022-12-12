@@ -1,10 +1,15 @@
-use yew::{function_component, html, use_context, Html, UseStateHandle};
+use yew::{function_component, html, use_context, Callback, Html, UseStateHandle};
+use yew_router::prelude::use_navigator;
 
-use crate::app::Jwt;
+use crate::{app::Jwt, routes::Route};
 
 #[function_component(Games)]
 pub fn games() -> Html {
     let jwt = use_context::<UseStateHandle<Jwt>>().expect("Cannot find user JWT struct");
+    let navigator = use_navigator().unwrap();
+    let onclick_play = Callback::from(move |_| {
+        navigator.push(&Route::Play);
+    });
 
     html! {
         <div class="content" style="padding-top: 2.5rem;">
@@ -12,9 +17,9 @@ pub fn games() -> Html {
                 {"Games"}
             </h1>
             <div class="dflex">
-                <div>
+                <div onclick={onclick_play}>
                     <img class="game-thumb" src="https://www.htmlgames.com/uploaded/game/thumb/soldierattack1300200.jpg"/>
-                    <div class="game-title font-sm">{"Soldier Attack 1"}</div>
+                    <div class="game-title font-sm">{"Line Adventure"}</div>
                     <div class="dflex dflex-gap-tn">
                         <span class="play-count"></span>
                         <span class="play-count-text">{"69K"}</span>
@@ -28,7 +33,7 @@ pub fn games() -> Html {
                 <div>{"Log in to see your friends!"}</div>
             } else {
                 <h1>
-                    {"Friends (69)"}
+                    {"Friends (0)"}
                 </h1>
             }
 

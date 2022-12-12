@@ -32,6 +32,13 @@ pub fn login() -> Html {
         })
     };
 
+    let onclick_register = {
+        let navigator = navigator.clone();
+        Callback::from(move |_| {
+            navigator.push(&Route::Register);
+        })
+    };
+
     {
         let register = register.clone();
         use_effect_update_with_deps(
@@ -80,8 +87,12 @@ pub fn login() -> Html {
             <TextInput on_change={password} placeholder="Enter Password" input_type="password" />
             <button type="button" id="submit-btn" {onclick} disabled={submitting}>{"Submit"}</button>
             if submitting {
-                <Loading />
+                <Loading text="Logging in"/>
             }
+        </div>
+        <div class="dflex dflex-gap-tn" style="justify-content: center; padding-top: 0.5rem;">
+            <span>{"Don't have an account? "}</span>
+            <a style="color: #f8981f; cursor: pointer;" onclick={onclick_register}>{"Sign up"}</a>
         </div>
         </>
     }

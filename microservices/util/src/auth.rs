@@ -65,5 +65,5 @@ pub fn verify(token: &str) -> Result<TokenData<Claims>, Error> {
     };
 
     let validation = Validation::new(Algorithm::HS256);
-    decode::<Claims>(token, &JWT_SECRET, &validation).map_err(|_| Error::InvalidToken)
+    decode::<Claims>(token, &JWT_SECRET, &validation).map_err(|e| Error::InvalidToken(e))
 }

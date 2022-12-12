@@ -144,7 +144,9 @@ name = "frontend"
 version = "0.1.0"
 dependencies = [
  "gloo",
+ "gloo-events",
  "gloo-timers",
+ "js-sys",
  "log",
  "reqwest",
  "serde",

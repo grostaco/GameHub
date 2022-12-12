@@ -37,6 +37,13 @@ pub fn register() -> Html {
         })
     };
 
+    let onclick_login = {
+        let navigator = navigator.clone();
+        Callback::from(move |_| {
+            navigator.push(&Route::Login);
+        })
+    };
+
     {
         let register = register.clone();
         use_effect_update_with_deps(
@@ -79,6 +86,7 @@ pub fn register() -> Html {
     html! {
         <>
         <Nav/>
+
         <div class="form-container" style="margin-top: 2.5rem">
             <label>{"Username"}</label>
             <TextInput on_change={username} placeholder="Enter Username"/>
@@ -88,8 +96,12 @@ pub fn register() -> Html {
             <TextInput on_change={email} placeholder="Enter Email"/>
             <button type="button" id="submit-btn" {onclick} disabled={submitting}>{"Submit"}</button>
             if submitting {
-                <Loading />
+                <Loading text="Registering"/>
             }
+        </div>
+        <div class="dflex dflex-gap-tn" style="justify-content: center; padding-top: 0.5rem;">
+            <span>{"Already got an account? "}</span>
+            <a style="color: #f8981f; cursor: pointer;" onclick={onclick_login}>{"Log in"}</a>
         </div>
         </>
     }

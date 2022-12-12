@@ -4,6 +4,7 @@ use lambda_http::{
     run, service_fn, Body, Error, Request, RequestExt, Response,
 };
 use routes::me;
+use tracing::info;
 use util::{auth::verify, json_response};
 
 mod routes;
@@ -30,15 +31,15 @@ async fn function_handler(event: Request) -> Result<Response<Body>, Error> {
         .unwrap_or("");
 
     let id = match event.headers().get("authorization") {
-        Some(auth) => match verify(auth.to_str()?) {
+        Some(auth) => match verify(auth.to_str()?.trim()) {
             Ok(verified) => verified.claims.sub,
-            Err(_) => return Ok(json_response!(401, "Unauthorized", "The JWT is not valid")?),
+            Err(e) => return Ok(json_response!(401, "Unauthorized", e.to_string())?),
         },
         None => {
             return Ok(json_response!(
-                404,
-                format!("Cannot proxy to path '{proxy_path}'"),
-                "Path is not recognized"
+                401,
+                "Unauthorized",
+                "Authorization not provided"
             )?)
         }
     };
@@ -48,6 +49,7 @@ async fn function_handler(event: Request) -> Result<Response<Body>, Error> {
 
     let body = event.body();
 
+    info!(proxy_path, "Received proxy path");
     let mut resp = match proxy_path {
         "@me" => me::me(&client, body, event.method(), &id).await?,
         _ => json_response!(
@@ -57,8 +59,13 @@ async fn function_handler(event: Request) -> Result<Response<Body>, Error> {
         )?,
     };
 
-    resp.headers_mut()
-        .insert("Access-Control-Allow-Origin", HeaderValue::from_static("*"));
+    let headers = resp.headers_mut();
+
+    headers.insert("Access-Control-Allow-Origin", HeaderValue::from_static("*"));
+    headers.insert(
+        "Access-Control-Allow-Methods",
+        HeaderValue::from_static("*"),
+    );
 
     Ok(resp)
 }

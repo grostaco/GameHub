@@ -1,4 +1,7 @@
-use std::time::{Duration, SystemTime, UNIX_EPOCH};
+use std::{
+    time::{Duration, SystemTime, UNIX_EPOCH},
+    vec,
+};
 
 use aws_sdk_dynamodb::{model::AttributeValue, Client};
 use bcrypt::DEFAULT_COST;
@@ -44,14 +47,29 @@ pub async fn register(client: &Client, request: &Body) -> Result<Response<Body>,
         .put_item()
         .condition_expression("attribute_not_exists(username) OR attribute_not_exists(email)")
         .table_name("GamehubAuth")
-        .item("username", username_av)
-        .item("id", id_av)
+        .item("username", username_av.clone())
+        .item("id", id_av.clone())
         .item("hashed_password", password_av)
         .item("email", email_av)
         .send()
         .await
     {
-        Ok(_) => return Ok(json_response!(200, &create_jwt(&id).unwrap())?),
+        Ok(_) => {
+            client
+                .put_item()
+                .table_name("GamehubUsers")
+                .item("id", id_av)
+                .item("username", username_av)
+                .item("bio", AttributeValue::S(String::new()))
+                .item("avatar", AttributeValue::S(String::new()))
+                .item("friends", AttributeValue::Ns(vec!["0".into()]))
+                .item("games_played", AttributeValue::Ns(vec!["0".into()]))
+                .send()
+                .await
+                .unwrap();
+
+            return Ok(json_response!(200, &create_jwt(&id).unwrap())?);
+        }
         Err(_) => Ok(json_response!(
             400,
             "Could not add user",

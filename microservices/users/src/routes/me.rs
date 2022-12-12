@@ -41,10 +41,10 @@ pub async fn me(
 async fn me_get(client: &Client, _request: &Body, id: &str) -> Result<Response<Body>, Error> {
     let results = client
         .query()
-        .table_name("GamehubUser")
+        .table_name("GamehubUsers")
         .key_condition_expression("#id = :id")
         .expression_attribute_names("#id", "id")
-        .expression_attribute_values(":id", AttributeValue::S(id.into()))
+        .expression_attribute_values(":id", AttributeValue::N(id.into()))
         .send()
         .await?;
 
@@ -69,11 +69,11 @@ async fn me_get(client: &Client, _request: &Body, id: &str) -> Result<Response<B
                     .unwrap_or("".to_string());
                 let friends = item
                     .get("friends")
-                    .map(|friends| friends.as_ss().unwrap().clone())
+                    .map(|friends| friends.as_ns().unwrap().clone())
                     .unwrap_or(Vec::new());
                 let games_played = item
                     .get("games_played")
-                    .map(|games| games.as_ss().unwrap().clone())
+                    .map(|games| games.as_ns().unwrap().clone())
                     .unwrap_or(Vec::new());
                 return Ok(json_response!(
                     200,
@@ -85,6 +85,16 @@ async fn me_get(client: &Client, _request: &Body, id: &str) -> Result<Response<B
                         games_played
                     }
                 )?);
+                // return Ok(json_response!(
+                //     200,
+                //     &MeGetReturn {
+                //         username: "A".into(),
+                //         bio: "A".into(),
+                //         avatar: "A".into(),
+                //         friends: Vec::new(),
+                //         games_played: Vec::new(),
+                //     }
+                // )?);
             }
             None => unimplemented!(),
         }
