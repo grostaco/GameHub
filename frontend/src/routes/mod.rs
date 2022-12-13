@@ -8,6 +8,7 @@ mod login;
 mod play;
 mod profile;
 mod register;
+mod user_profile;
 
 use discovery::Discovery;
 use friends::Friends;
@@ -16,6 +17,7 @@ use login::Login;
 use play::Play;
 use profile::Profile;
 use register::Register;
+use user_profile::UserProfile;
 
 #[derive(Clone, Routable, PartialEq)]
 pub enum Route {
@@ -33,6 +35,8 @@ pub enum Route {
     Play,
     #[at("/friends")]
     Friends,
+    #[at("/user/:id")]
+    UserProfile { id: String },
 }
 
 pub fn switch(routes: Route) -> Html {
@@ -44,5 +48,6 @@ pub fn switch(routes: Route) -> Html {
         Route::Profile => html! { <Profile /> },
         Route::Play => html! { <Play /> },
         Route::Friends => html! { <Friends /> },
+        Route::UserProfile { id } => html! { <UserProfile id={id} /> },
     }
 }
