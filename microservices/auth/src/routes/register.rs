@@ -61,7 +61,7 @@ pub async fn register(client: &Client, request: &Body) -> Result<Response<Body>,
                 .item("id", id_av)
                 .item("username", username_av)
                 .item("bio", AttributeValue::S(String::new()))
-                .item("avatar", AttributeValue::S(String::new()))
+                .item("avatar", AttributeValue::S("https://scontent.fbkk5-6.fna.fbcdn.net/v/t39.30808-1/300618868_382834244010803_6059222766905926893_n.png?stp=c4.0.200.200a_dst-png_p200x200&_nc_cat=102&ccb=1-7&_nc_sid=c6021c&_nc_eui2=AeGui9mRiDYAxVG5XH716DlnU6AiVfKaB8RToCJV8poHxNh7yH78Ctr5EejaoGMXdkSs5IRJJzKfcxf6SjUOd0R5&_nc_ohc=EgsGnRuC24YAX87vOk5&_nc_ht=scontent.fbkk5-6.fna&oh=00_AfA-kg8nUPc0P_7kAw034ocEu7NuX_4w1aFYenGQ-xcLYw&oe=639DC7F4".into()))
                 .item("friends", AttributeValue::Ns(vec!["0".into()]))
                 .item("games_played", AttributeValue::Ns(vec!["0".into()]))
                 .send()
