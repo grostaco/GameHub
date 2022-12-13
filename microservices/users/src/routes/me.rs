@@ -85,16 +85,6 @@ async fn me_get(client: &Client, _request: &Body, id: &str) -> Result<Response<B
                         games_played
                     }
                 )?);
-                // return Ok(json_response!(
-                //     200,
-                //     &MeGetReturn {
-                //         username: "A".into(),
-                //         bio: "A".into(),
-                //         avatar: "A".into(),
-                //         friends: Vec::new(),
-                //         games_played: Vec::new(),
-                //     }
-                // )?);
             }
             None => unimplemented!(),
         }
@@ -109,21 +99,27 @@ async fn me_patch(client: &Client, request: &Body, id: &str) -> Result<Response<
         Err(e) => return Ok(json_response!(400, "Malformed JSON body", e.to_string())?),
     };
 
-    let mut put = client
-        .put_item()
-        .table_name("GamehubUser")
-        .item(id, AttributeValue::S(id.into()));
+    let mut update = client
+        .update_item()
+        .table_name("GamehubUsers")
+        .key("id", AttributeValue::N(id.into()));
     if let Some(username) = request.username {
-        put = put.item("username", AttributeValue::S(username.into()));
+        update = update
+            .update_expression("SET username = :username")
+            .expression_attribute_values(":username", AttributeValue::S(username.into()));
     }
     if let Some(bio) = request.bio {
-        put = put.item("bio", AttributeValue::S(bio.into()));
+        update = update
+            .update_expression("SET bio = :bio")
+            .expression_attribute_values(":bio", AttributeValue::S(bio.into()));
     }
     if let Some(avatar) = request.avatar {
-        put = put.item("avatar", AttributeValue::S(avatar.into()));
+        update = update
+            .update_expression("SET avatar = :avatar")
+            .expression_attribute_values(":avatar", AttributeValue::S(avatar.into()));
     }
 
-    match put.send().await {
+    match update.send().await {
         Ok(_) => return Ok(json_response!(200, &create_jwt(&id).unwrap())?),
         Err(e) => Ok(json_response!(400, "Could not patch user", e.to_string())?),
     }
