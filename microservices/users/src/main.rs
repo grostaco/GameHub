@@ -7,6 +7,8 @@ use routes::me;
 use tracing::info;
 use util::{auth::verify, json_response};
 
+use crate::routes::util::get_user;
+
 mod routes;
 
 async fn function_handler(event: Request) -> Result<Response<Body>, Error> {
@@ -52,6 +54,7 @@ async fn function_handler(event: Request) -> Result<Response<Body>, Error> {
     info!(proxy_path, "Received proxy path");
     let mut resp = match proxy_path {
         "@me" => me::me(&client, body, event.method(), &id).await?,
+        id if proxy_path.parse::<u64>().is_ok() => get_user(&client, body, id).await?,
         _ => json_response!(
             404,
             format!("Cannot proxy to path '{proxy_path}'"),
