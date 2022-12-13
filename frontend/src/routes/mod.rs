@@ -2,6 +2,7 @@ use yew::{html, Html};
 use yew_router::Routable;
 
 mod discovery;
+mod friends;
 mod home;
 mod login;
 mod play;
@@ -9,6 +10,7 @@ mod profile;
 mod register;
 
 use discovery::Discovery;
+use friends::Friends;
 use home::Home;
 use login::Login;
 use play::Play;
@@ -29,6 +31,8 @@ pub enum Route {
     Profile,
     #[at("/play")]
     Play,
+    #[at("/friends")]
+    Friends,
 }
 
 pub fn switch(routes: Route) -> Html {
@@ -39,5 +43,6 @@ pub fn switch(routes: Route) -> Html {
         Route::Discovery => html! { <Discovery /> },
         Route::Profile => html! { <Profile /> },
         Route::Play => html! { <Play /> },
+        Route::Friends => html! { <Friends /> },
     }
 }
