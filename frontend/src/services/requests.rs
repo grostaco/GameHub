@@ -39,6 +39,10 @@ macro_rules! request {
             reqwest::header::HeaderMap::default(),
         )
     };
+
+    (patch -> $url:expr ; $body:expr => $headers:expr) => {
+        crate::services::requests::request_impl(reqwest::Method::PATCH, $url, $body, $headers)
+    };
 }
 
 pub(crate) use request;
@@ -53,7 +57,7 @@ where
     T: DeserializeOwned + 'static + Debug,
     B: Serialize + Debug,
 {
-    let allow_body = matches!(method, Method::POST | Method::PUT);
+    let allow_body = matches!(method, Method::POST | Method::PUT | Method::PATCH);
     let baseurl = "https://4ube83bvgl.execute-api.us-east-1.amazonaws.com";
     let url = format!("{baseurl}{url}");
 
