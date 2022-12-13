@@ -4,8 +4,9 @@ use serde::{Deserialize, Serialize};
 
 use super::requests::request;
 
-#[derive(Clone, Debug, Serialize, Deserialize)]
+#[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]
 pub struct UserInfoResponse {
+    pub id: String,
     pub username: String,
     pub bio: String,
     pub avatar: String,
@@ -24,6 +25,12 @@ pub async fn get_user_info(jwt: &str) -> Result<UserInfoResponse> {
     let mut header_map = HeaderMap::new();
     header_map.insert("Authorization", HeaderValue::from_str(jwt).unwrap());
     request!(get -> "/users/@me" => header_map).await
+}
+
+pub async fn get_user_by_id(id: &str, jwt: &str) -> Result<UserInfoResponse> {
+    let mut header_map = HeaderMap::new();
+    header_map.insert("Authorization", HeaderValue::from_str(jwt).unwrap());
+    request!(get -> &format!("/users/{id}") => header_map).await
 }
 
 pub async fn patch_user_info(jwt: &str, patch_request: &UserPatchRequest) -> Result<()> {
