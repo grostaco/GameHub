@@ -49,9 +49,6 @@ pub fn nav() -> Html {
                 <div class="underline-expand" onclick={onclick_home}>{"Home"}</div>
                 <div class="underline-expand" onclick={onclick_discovery}>{"Discover"}</div>
                 <div class="underline-expand" href="#">{"Create"}</div>
-                if !jwt.access_token.is_empty() {
-                    <div class="underline-expand" href="#">{"Friends"}</div>
-                }
             </div>
             <div class="dflex dflex-justify-center dflex-gap-sm">
                 if jwt.access_token.is_empty() {
