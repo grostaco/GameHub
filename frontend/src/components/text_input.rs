@@ -1,5 +1,5 @@
 use wasm_bindgen::{JsCast, UnwrapThrowExt};
-use web_sys::{Event, HtmlInputElement};
+use web_sys::{Event, HtmlInputElement, InputEvent};
 use yew::{function_component, html, Callback, Html, Properties, UseStateHandle};
 
 #[derive(Clone, PartialEq, Properties)]
@@ -27,13 +27,13 @@ pub fn text_input(props: &Props) -> Html {
         input_type,
         placeholder,
     } = props.clone();
-    let onchange = {
-        Callback::from(move |event: Event| {
-            on_change.set(get_value_from_input_event(event));
+    let oninput = {
+        Callback::from(move |event: InputEvent| {
+            on_change.set(get_value_from_input_event(event.dyn_into().unwrap()));
         })
     };
 
     html! {
-        <input class="text-inp1" type={input_type} {placeholder} {onchange} />
+        <input class="text-inp1" type={input_type} {placeholder} {oninput} />
     }
 }
